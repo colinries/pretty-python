@@ -54,4 +54,3 @@ def arbitrary_function():
 
 print(gc_content('ttcccgg'))
 test()
-
