@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-# Example 2-18from Bioinformatics Programming (mlm)
+# Example 2-18 from Bioinformatics Programming (mlm)
+
+
+# Constants
+DNAbases = set("TCAGtcag")
+RNAbases = set("UCAGucag")
 
 
 def validate_base_sequence(base_sequence, RNAflag=False):
@@ -8,9 +13,13 @@ def validate_base_sequence(base_sequence, RNAflag=False):
     Return True if the string base_sequence contains only upper- or lowercase
     T (or U, if RNAflag), C, A, and G characters, otherwise False
     """
-    seq = base_sequence.upper()
-    return len(seq) == (seq.count('U' if RNAflag else 'T') +
-                        seq.count('C') + seq.count('A') + seq.count('G'))
+    return set(base_sequence) <= (RNAbases if RNAflag else DNAbases)  # from example 3-1
+
+    # or, as in the original example,
+    #
+    # seq = base_sequence.upper()
+    # return len(seq) == (seq.count('U' if RNAflag else 'T') +
+    #                     seq.count('C') + seq.count('A') + seq.count('G'))
 
 
 def gc_content(base_seq, RNAflag=False):  # Added RNAflag optional parameter
