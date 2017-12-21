@@ -3,8 +3,8 @@
 
 
 # Constants
-DNAbases = set("TCAGtcag")
-RNAbases = set("UCAGucag")
+DNAbases = frozenset("TCAGtcag")
+RNAbases = frozenset("UCAGucag")
 
 
 def validate_base_sequence(base_sequence, RNAflag=False):
