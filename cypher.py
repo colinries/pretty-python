@@ -37,6 +37,7 @@ def scramble(mess, cypher):
 def decode(secret, cypher):
     """Decode the message secret according the key"""
     reverse_cypher = {}
+
     for i in cypher.keys():
         reverse_cypher[cypher[i]] = i
     return secret.translate(reverse_cypher)
