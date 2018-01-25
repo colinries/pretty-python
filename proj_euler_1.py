@@ -23,6 +23,17 @@ def adjacent_digits(m):
     return (series[i: i+m] for i in range(0, len(series)))
 
 
+def calc_prod(adj):
+    """Calculate product of a string of digits from generator"""
+    total = 1
+
+    for i in adj:
+        if i != '0':
+            total *= int(i)
+
+    return total
+
+
 def adjacent_products(m):
     """Multiply list of adjacent digits passed from generator
 
@@ -32,33 +43,45 @@ def adjacent_products(m):
     # Initiate generator
     gen = adjacent_digits(m)
     # Tracks the greatest product
-    top = 0
+    greatest = 0
 
-    # Calculate product of adjacent digits
     n = next(gen, None)
-    while n:
-        total = 1
-        for i in n:
-            if i != '0':
-                total *= int(i)
+    while len(n) >= m:
+        prod = calc_prod(n)
 
         # If total greater than current greatest product then replace value
-        if total > top:
-            top = total
+        if prod > greatest:
+            greatest = prod
 
         n = next(gen, None)
 
-    return top
+    return greatest
 
 
-def calc_prod(adj):
-    """Calculate product of a string of digits from generator"""
-    total = 1
+def sort_products(m):
+    """Sort products of m adjacent digits
 
-    for i in range(len(adj)):
-        if i != '0':
-            total *= int(i)
-    return total
+    Sort products of m adjacent digits to solve Project Euler's Problem #8
+    using functional parameters and anonymous functions. Incredibly contrived.
+    """
+    # Initiate generator
+    gen = adjacent_digits(m)
+
+    # Instantiate empty list lst
+    lst = [None] * (1000-m+1)
+
+    n = next(gen, None)
+    i = 0
+
+    # Populate lst with adjacent digits
+    while len(n) >= m:
+        lst[i]=n
+        n = next(gen, None)
+        i += 1
+
+
+    lst.sort(reverse=True, key=lambda x: calc_prod(x))
+    return calc_prod(lst[0])
 
 
 def test():
@@ -68,7 +91,10 @@ def test():
 
     # pe_8
     assert adjacent_products(4) == 5832
-    print(adjacent_products(13))
+    assert adjacent_products(13) == 31109847552
+
+    assert sort_products(4) == 5832
+    assert sort_products(13) == 31109847552
 
     print('All tests passed')
 
