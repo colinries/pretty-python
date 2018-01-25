@@ -59,5 +59,6 @@ def sierpinski(deg):
         print('')
 
 
-sierpinski(9)
-prmd(100)
+if __name__ == '__main__':
+    sierpinski(9)
+    prmd(100)

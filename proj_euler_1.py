@@ -99,4 +99,5 @@ def test():
     print('All tests passed')
 
 
-test()
+if __name__ == '__main__':
+    test()

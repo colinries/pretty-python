@@ -51,4 +51,5 @@ def test():
         print(seq[i], end='')
 
 
-test()
+if __name__ == '__main__':
+    test()
