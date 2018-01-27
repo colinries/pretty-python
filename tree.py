@@ -10,7 +10,7 @@ from pprint import pprint
 
 # Constants
 tree1 = ['', ['A', ['CC', ['CCTGATTACCG'], ['G']], ['TTACCG']], ['C', ['C', ['CTGATTACCG'], ['TGATTACCG'], ['G']], ['TGATTACCG'], ['G']], ['T', ['GATTACCG'], ['TACCG'], ['ACCG']], ['GATTACCG']]
-pprint(tree1)
+# pprint(tree1)
 
 
 def treeprint(tree, level=0):
