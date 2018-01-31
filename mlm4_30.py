@@ -1,5 +1,5 @@
 #!usr/bin/env python3
-# Example 4-30 from Bioinformatics Programming
+# Example 4-30 from Bioinformatics Programming, corrected for errors
 
 
 def get_items_from_file(filename, testfn=None):
@@ -15,9 +15,6 @@ def get_items_from_file(filename, testfn=None):
 
     Returns:
         list: A list of FASTA entries in filename
-
-    Raises:
-        # TODO: FIll in possible errors that can be raised
     """
     with open(filename) as file:
         return get_items(file, testfn)
@@ -90,7 +87,7 @@ def item_generator(src):
     skip_intro(src)
 
     seq = ''
-    description = src.readline().split('>')
+    description = src.readline()
     line = src.readline()
 
     while line:
@@ -99,7 +96,7 @@ def item_generator(src):
             line = src.readline()
         yield (description, seq)
         seq = ''
-        description = src.readline().split('>')
+        description = line
         line = src.readline()
 
 
@@ -109,20 +106,27 @@ def skip_intro(src):
 
 def test():
     # test FASTA file
-    fa = 'haloVolc1_1-genes.fa.txt'
+    fa = 'testGenome.fa.txt'
+
+    # item_generator()
+    with open(fa) as file:
+        gen = item_generator(file)
+        item1 = next(gen)
+        assert item1 == ('>pyroOgun20001 CP003316 Pyrobaculum oguniense TE7, complete genome.\n', 'ATGAGGCTGAAGATAAGGACAGACGGCGCCGCCCAGCAACAGCAGGCGGA\nCTGGCGGGACTGCTTCATCCGCGCCGTCGTCGAGATGCCGGCGGACTGGG\nGCATGGCGATAATCAAGGCCATGCCCCAGGAGATGGTAAACGAGCTGTTA\nCAAAGCCGAAACGACCCCTACTACAAATTCGCGCTTCTGCTACTGCAGAG\nGGCACAGAAATAA\n')
+        item2 = next(gen)
+        assert item2 == ('>pyroOgun20002 CP003316 Pyrobaculum oguniense TE7, complete genome.\n', 'GTGAGGGCTTGCCGGCCGCACCCCAGGGCCTTGCTCAGGTTTGCCTATCT\nGCAAGAGGTGTTGTGGGAAATGGCGGCGTACTGGTGCCGCTGTCTGAGGT\nACGCCCCCCTCTGCGGGCGGGGGAGGTGCCCAGTAGACGCGACCGCGTGC\nGCCGCGGCCCTCCCGGCGGTCTTAGCCGCCTGGGGGTCTTTAGTGAGGGC\nGAACTTCTACGTCTTTCTCAGGGGCGAGGTGCCGGAGCGCTTCTACCTCG\nCCGTCGCCAAAGCGGCCTCCCGGCTGTTCACCCACCTCGCCCAGGACGGG\nTACATCCTCTACGAAGACCTGGTGACAGAGGCGGCGATCCTCTTCCTAGA\nGGTGAGTAGGCGCAAGGTTTATCCCCCGCCCACCCCGGCAACTCCATGA\n')
 
     # get_items_from_file()
     entries = get_items_from_file(fa)
-    second = entries[1]
-    (description, seq) = second
-    # TODO: Figure how to test this more effectively
-    assert description == 'haloVolc1_10002'
+    (description, seq) = entries[3]
+    assert description == '>pyroOgun20004 CP003316 Pyrobaculum oguniense TE7, complete genome.\n'
 
     # find_item_in_file()
     first = find_item_in_file(fa)
     (description, seq) = first
-    assert seq[15:32] == 'AATCCGCGAGGCGGCGC', 'sequence incorrect'
-    print(seq)
+    assert seq[15:32] == 'AGGACAGACGGCGCCGC', 'sequence incorrect'
+
+    print("All tests passed")
 
 
 if __name__ == '__main__':
