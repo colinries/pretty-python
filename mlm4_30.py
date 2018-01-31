@@ -90,7 +90,7 @@ def item_generator(src):
     skip_intro(src)
 
     seq = ''
-    description = src.readline().split('|')
+    description = src.readline().split('>')
     line = src.readline()
 
     while line:
@@ -99,7 +99,7 @@ def item_generator(src):
             line = src.readline()
         yield (description, seq)
         seq = ''
-        description = src.readline().split('|')
+        description = src.readline().split('>')
         line = src.readline()
 
 
@@ -108,7 +108,8 @@ def skip_intro(src):
 
 
 def test():
-    pass
+    first = find_item_in_file('haloVolc1_1-genes.fa.txt')
+    print(first)
 
 
 if __name__ == '__main__':
