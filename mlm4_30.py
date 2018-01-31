@@ -108,8 +108,21 @@ def skip_intro(src):
 
 
 def test():
-    first = find_item_in_file('haloVolc1_1-genes.fa.txt')
-    print(first)
+    # test FASTA file
+    fa = 'haloVolc1_1-genes.fa.txt'
+
+    # get_items_from_file()
+    entries = get_items_from_file(fa)
+    second = entries[1]
+    (description, seq) = second
+    # TODO: Figure how to test this more effectively
+    assert description == 'haloVolc1_10002'
+
+    # find_item_in_file()
+    first = find_item_in_file(fa)
+    (description, seq) = first
+    assert seq[15:32] == 'AATCCGCGAGGCGGCGC', 'sequence incorrect'
+    print(seq)
 
 
 if __name__ == '__main__':
