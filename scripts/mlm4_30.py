@@ -15,6 +15,7 @@ def get_items_from_file(filename, testfn=None):
 
     Returns:
         list: A list of FASTA entries in filename
+
     """
     with open(filename) as file:
         return get_items(file, testfn)
@@ -36,6 +37,7 @@ def find_item_in_file(filename, testfn=None):
 
     Raises:
         # TODO: FIll in possible errors that can be raised
+
     """
     with open(filename) as file:
         return find_item(file, testfn)
