@@ -24,11 +24,52 @@ def get_items_from_file(filename, testfn=None):
 
 
 def find_item_in_file(filename, testfn=None):
-    pass
+    """Returns the first item in the file named filename
+
+    Returns the first item in the file named filename; if testfn then return
+    the first item for which testfn is true.
+
+    Args:
+        filename: The uri for the source FASTA file
+        testfn (optional): Only items for which testfn is true are returned.
+            Default is None.
+
+    Returns:
+        list: A FASTA entry in filename
+
+    Raises:
+        # TODO: FIll in possible errors that can be raised
+    """
+    with open(filename) as file:
+        return find_item(file, testfn)
 
 
 def find_item(src, testfn):
-    pass
+    """Return the first item in src
+
+    Return the first item in src; if testfn then return the first item for
+    which testfn is true
+
+    Args:
+        src: The file object of a FASTA file
+        testfn (optional): Only items for which testfn is true are returned.
+            Default is None.
+
+    Returns:
+        str: A FASTA entry
+    """
+    gen = item_generator(src)
+    item = next(gen)
+
+    if not testfn:
+        return item
+    else:
+        try:
+            while not testfn(item):
+                item = next(gen)
+            return item
+        except StopIteration:
+            return None
 
 
 def get_items(src, testfn=None):
@@ -37,7 +78,6 @@ def get_items(src, testfn=None):
     Return all the items in src; if testfn then include only those items for
     which testfn is true
     """
-    # TODO: Address possible StopIteration
     return [item for item in item_generator(src) if not testfn or testfn(item)]
 
 
