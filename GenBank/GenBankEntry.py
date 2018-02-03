@@ -3,22 +3,52 @@
 
 
 class GenBankEntry:
+    """Store and represent a GenBank entry"""
+
+    Instances = {}
+
+    # Class Methods
+
+    @classmethod
+    def InstanceCount(cls):
+        return len(cls.Instances)
+
+    @classmethod
+    def GetInstances(cls):
+        return (value for value in cls.Instances.keys())
+
+    @classmethod
+    def Get(cls, target):
+        """Return the instance whose GID is target"""
+        return cls.Instances.get(target,None)
 
     # Fundamental Methods
 
-    def __init__(self):
-        pass
+    def __init__(self, data):
+        self.accession, self.version = data[0][0].split('.')
+        self.gid = data[0][1]
+        self.sequence = data[2]
+        # Verify the first feature is source
+        assert 'source' == data[1][0][0]
+        self.features = data[1][1:]
+        self.source = data[1][0]
+        self.Instances[self.gid] = self
 
     def __repr__(self):
-        pass
+        return 'GenBankEntry-' + self.get_gid()
 
     def __str__(self):
-        pass
+        return "<GenBankEntry {} {} '{}'>".format(self.get_gid(),
+                                                  self.get_accession(),
+                                                  self.organism()
+                                                  )
 
-    # Predicates
+    #  Predicates
 
     def __lt__(self, other):
-        pass
+        if type(self) != type(other):
+            raise Exception('Incompatible argument to __lt__: ' + str(other))
+        return self.get_gid() < other.get_gid()
 
     def is_base_sequence(self):
         """Predicate method; a boolean valued method
@@ -36,11 +66,14 @@ class GenBankEntry:
     def chromosome(self):
         return self.source[2].get('chromosome', None)
 
-    def get_gi(self):
-        return self.info['gi']
-
     def get_accession(self):
-        return self.info['accession']
+        return self.accession
+
+    def get_gid(self):
+        return self.gid
+
+    def get_sequence(self):
+        return self.sequence
 
     def gc_content(self):
         return round((100 * ((self.sequence.count('g') +
@@ -61,6 +94,4 @@ def test():
 if __name__ == '__main__':
     test()
 
-
-gb = GenBankEntry()
 
