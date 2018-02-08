@@ -54,5 +54,6 @@ class GenBankFeature:
     def type_lt(self, other):
         assert type(self) == type(other)
         return (self.FeatureNameOrder.index(self.get_type()) <
-                other.FeatureNameOrder.index(self.get_type()))
+                other.FeatureNameOrder.index(self.get_type())
+                )
 

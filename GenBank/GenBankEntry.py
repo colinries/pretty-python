@@ -24,14 +24,12 @@ class GenBankEntry:
 
     # Fundamental Methods
 
-    def __init__(self, data):
-        self.accession, self.version = data[0][0].split('.')
-        self.gid = data[0][1]
-        self.sequence = data[2]
-        # Verify the first feature is source
-        assert 'source' == data[1][0][0]
-        self.features = data[1][1:]
-        self.source = data[1][0]
+    def __init__(self, accession,  gid, source, sequence, features):
+        self.accession = accession
+        self.gid = gid
+        self.sequence = sequence
+        self.features = features
+        self.source = source
         self.Instances[self.gid] = self
 
     def __repr__(self):
